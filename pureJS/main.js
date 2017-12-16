@@ -4,12 +4,17 @@
 let addButton = document.getElementById('id-button-add')
 let container = document.getElementById('id-div-container')
 addButton.addEventListener('click', function () {
+    // 获取输入的值
     let input = document.getElementById('id-input-todo')
-    let toDo = input.value
-    let t = template(toDo)
-    container.insertAdjacentHTML('beforeend', t)
+    let todo = input.value
+    // 添加到container中
+    insertTodo(todo)
     saveTodos()
 })
+function insertTodo(todo){
+    let t = template(todo)
+    container.insertAdjacentHTML('beforeend', t)
+}
 function template(todo) {
     let t = `
     <div class="todo-cell">
@@ -50,9 +55,9 @@ function save(todos) {
     localStorage.todos = s
 }
 function load() {
-    let l = localStorage.todos
-    return JSON.parse(l)
+    return JSON.parse(localStorage.todos)
 }
+
 function saveTodos(){
     let content = document.getElementsByClassName('content')
     let todos = []
@@ -63,3 +68,10 @@ function saveTodos(){
     save(todos)
     console.log('localStorage' + ' ' + localStorage.todos)
 }
+function loadTodos(){
+    let todos = load()
+    for (let i = 0; i < todos.length; i++) { 
+        insertTodo(todos[i])
+    }
+}
+loadTodos()
